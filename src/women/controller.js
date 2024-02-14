@@ -11,6 +11,18 @@ const getAllWomen = async (req, res) => {
     }
 };
 
+const getWomanByID = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const queryByIDResult = await db.query(queries.queryByID, [id]);
+        res.status(200).json(queryByIDResult.rows);
+    } catch (error) {
+        console.log('Error querying databse by id:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 export default {
     getAllWomen,
+    getWomanByID
 };
