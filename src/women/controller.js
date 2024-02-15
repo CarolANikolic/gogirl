@@ -22,7 +22,19 @@ const getWomanByID = async (req, res) => {
     }
 };
 
+const getWomenByContinent = async (req, res) => {
+    try {
+        const continent = req.params.continent;
+        const queryByContinentResult = await db.query(queries.queryByContinent, [continent]);
+        res.status(200).json(queryByContinentResult.rows);
+    } catch (error) {
+        console.log('Error querying databse by continent:', error);
+        res.status(500).json( {error: 'Internal server error'})
+    }
+}
+
 export default {
     getAllWomen,
-    getWomanByID
+    getWomanByID,
+    getWomenByContinent
 };
