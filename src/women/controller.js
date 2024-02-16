@@ -1,5 +1,5 @@
 import db from '../../db.js';
-import queries from './queries.js'
+import queries from './queries.js';
 
 const getAllWomen = async (req, res) => {
     try {
@@ -17,24 +17,36 @@ const getWomanByID = async (req, res) => {
         const queryByIDResult = await db.query(queries.queryByID, [id]);
         res.status(200).json(queryByIDResult.rows);
     } catch (error) {
-        console.log('Error querying databse by id:', error);
+        console.log('Error querying database by id:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
 const getWomenByContinent = async (req, res) => {
     try {
-        const continent = req.params.continent;
+        const continent = req.params.continent.toLowerCase();
         const queryByContinentResult = await db.query(queries.queryByContinent, [continent]);
         res.status(200).json(queryByContinentResult.rows);
     } catch (error) {
-        console.log('Error querying databse by continent:', error);
-        res.status(500).json( {error: 'Internal server error'})
+        console.log('Error querying database by continent:', error);
+        res.status(500).json({ error: 'Internal server error' })
+    }
+}
+
+const getWomenByName = async (req, res) => {
+    try {
+        const name = req.params.name.toLowerCase();
+        const queryByNameResult = await db.query(queries.queryByName, [name]);
+        res.status(200).json(queryByNameResult.rows);
+    } catch (error) {
+        console.log('Error querying database by name:', error);
+        res.status(500).json({ error: 'Internal server error' })
     }
 }
 
 export default {
     getAllWomen,
     getWomanByID,
-    getWomenByContinent
+    getWomenByContinent,
+    getWomenByName
 };
